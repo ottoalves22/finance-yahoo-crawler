@@ -1,8 +1,12 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 class Crawler:
     start_url = "https://finance.yahoo.com/screener/new"
@@ -33,10 +37,15 @@ class Crawler:
 
         add_region_bt = self.driver.find_element(By.XPATH, '//*[@id="screener-criteria"]/div[2]/div[1]/div[1]/div[1]/div/div[2]/ul/li/div/div')
         add_region_bt.click()
-
-        add_region_input = self.driver.find_element(By.XPATH, '//*[@id="dropdown-menu"]/div/div[1]/div/input')
-        add_region_input.send_keys(region)
-        region_ckbx = self.driver.find_element(By.XPATH, '//*[@id="dropdown-menu"]/div/div[2]/ul/li/label')
-        self.driver.implicitly_wait(15)
-        region_ckbx.send_keys(Keys.SPACE)
+        country_list = len(self.driver.find_elements(By.XPATH, f'//*[@id="dropdown-menu"]/div/div[2]/ul/li'))
+        # comparing string to each element as a human user would do. The div dropdown-menu isn't a dropdown
+        for i in range(1, country_list+1):
+            country = self.driver.find_element(By.XPATH, f'//*[@id="dropdown-menu"]/div/div[2]/ul/li[{i}]/label/span')
+            if country.text == region:
+                country.click()        
+                break
+        time.sleep(5)
+        find_stocks_bt = self.driver.find_element(By.XPATH, '//*[@id="screener-criteria"]/div[2]/div[1]/div[3]/button[1]')
+        find_stocks_bt.click()
+        
         
