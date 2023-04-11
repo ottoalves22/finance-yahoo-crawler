@@ -29,7 +29,7 @@ class Crawler:
 
         self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
 
-    def crawl_finances(self, region: str):
+    def crawl_finances(self, region: str) -> str:
         self.driver.get(self.start_url)
         # by default Region will include United States. The next action will be removing the default value
         default_value_bt = self.driver.find_element(By.XPATH, '//*[@id="screener-criteria"]/div[2]/div[1]/div[1]/div[1]/div/div[2]/ul/li[1]/button')
@@ -47,5 +47,9 @@ class Crawler:
         time.sleep(5)
         find_stocks_bt = self.driver.find_element(By.XPATH, '//*[@id="screener-criteria"]/div[2]/div[1]/div[3]/button[1]')
         find_stocks_bt.click()
+
+        time.sleep(5)
+        stocks_table = self.driver.find_element(By.XPATH, '//*[@id="scr-res-table"]/div[1]/table')
+        return stocks_table.get_attribute("innerHTML")
         
         
