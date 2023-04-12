@@ -3,8 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
@@ -49,7 +47,22 @@ class Crawler:
         find_stocks_bt.click()
 
         time.sleep(5)
-        stocks_table = self.driver.find_element(By.XPATH, '//*[@id="scr-res-table"]/div[1]/table')
-        return stocks_table.get_attribute("innerHTML")
+        final_table = []
+        stocks_table = self.driver.find_element(By.XPATH, '//*[@id="scr-res-table"]/div[1]/table/tbody')
+        final_table.append(stocks_table.get_attribute("innerHTML"))
+
+        # search subsequent pages
+        while True:
+            try:
+                self.driver.find_element(By.XPATH, '//*[@id="scr-res-table"]/div[2]/button[3]').click()
+                time.sleep(5)
+                stocks_table = self.driver.find_element(By.XPATH, '//*[@id="scr-res-table"]/div[1]/table/tbody')
+                final_table.append(stocks_table)
+            except Exception as ex:
+                # The inability to click in the button will trigger this exit from the loop
+                time.sleep(5)
+                break
+
+        return final_table
         
         
