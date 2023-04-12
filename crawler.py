@@ -22,7 +22,7 @@ class Crawler:
                                                         "plugins.always_open_pdf_externally": True
                                                         })
         # For debugging the browser:
-        chrome_options.add_experimental_option("detach", True)
+        #chrome_options.add_experimental_option("detach", True)
 
 
         self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
@@ -57,7 +57,7 @@ class Crawler:
                 self.driver.find_element(By.XPATH, '//*[@id="scr-res-table"]/div[2]/button[3]').click()
                 time.sleep(5)
                 stocks_table = self.driver.find_element(By.XPATH, '//*[@id="scr-res-table"]/div[1]/table/tbody')
-                final_table.append(stocks_table)
+                final_table.append(stocks_table.get_attribute("innerHTML"))
             except Exception as ex:
                 # The inability to click in the button will trigger this exit from the loop
                 time.sleep(5)
