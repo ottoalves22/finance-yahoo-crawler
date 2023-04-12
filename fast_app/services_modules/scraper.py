@@ -24,14 +24,17 @@ class Scraper:
 
         return final_dict_list
     
-    def generate_csv_file(self, finance_dict):
+    def generate_csv_file(self, finance_dict: list) -> str:
         keys = finance_dict[0].keys()
-        with open(f'yahoo_finances_{datetime.now()}.csv', 'w', newline='') as csv_file:
+        filaname = f'yahoo_finances_{datetime.now()}.csv' 
+        with open(filaname, 'w', newline='') as csv_file:
             dict_writer = csv.DictWriter(csv_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(finance_dict)
+            return filaname
 
-    def generate_files(self, finance_table_html: list):
+    def generate_files(self, finance_table_html: list) -> str:
         finance_dicts = self.generate_json(finance_table_html)
-        self.generate_csv_file(finance_dicts)
+        filename = self.generate_csv_file(finance_dicts)
+        return filename
                 
