@@ -5,10 +5,22 @@ These variables are collected and stored as a JSON file, which can be exported a
 Built on linux environment, chromedrive might differ.
 Access it using fastapi documentation
 
-## Execution
+## Local Execution
 ```bash
 pip install -r requirements.txt && ./run.sh
 ```
+
+## Docker Execution
+```bash
+sudo ./docker.sh --build
+
+sudo ./docker.sh --start
+
+sudo ./docker.sh --stop
+
+sudo ./docker.sh --restart
+```
+Flag restart will stop, prune containers and start a new one
 
 ## Documentation
 
