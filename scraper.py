@@ -1,6 +1,7 @@
 from datetime import datetime
 import json
 from bs4 import BeautifulSoup
+import csv
 
 class Scraper:
     def generate_json(self, html: list) -> dict:
@@ -22,4 +23,15 @@ class Scraper:
             out_file.write(json_object)
 
         return final_dict_list
+    
+    def generate_csv_file(self, finance_dict):
+        keys = finance_dict[0].keys()
+        with open(f'yahoo_finances_{datetime.now()}.csv', 'w', newline='') as csv_file:
+            dict_writer = csv.DictWriter(csv_file, keys)
+            dict_writer.writeheader()
+            dict_writer.writerows(finance_dict)
+
+    def generate_files(self, finance_table_html: list):
+        finance_dicts = self.generate_json(finance_table_html)
+        self.generate_csv_file(finance_dicts)
                 
