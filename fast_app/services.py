@@ -9,5 +9,7 @@ class ScraperCrawlerService:
         crawler = Crawler()
         finance_table_html = crawler.crawl_finances(region)
         scraper = Scraper()
-        scraper.generate_files(finance_table_html)
+        csv_name = scraper.generate_files(finance_table_html)
+        return f'{csv_name}'
+
 
