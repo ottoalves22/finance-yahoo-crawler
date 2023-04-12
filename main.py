@@ -6,4 +6,4 @@ crawler = Crawler()
 region = 'Qatar'
 finance_table_html = crawler.crawl_finances(region)
 scraper = Scraper()
-finance_dicts = scraper.generate_dict(finance_table_html)
+finance_dicts = scraper.generate_json(finance_table_html)
